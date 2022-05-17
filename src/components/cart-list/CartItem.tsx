@@ -1,8 +1,10 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { decrement, increment, removeItem } from 'features/cart/cartSlice';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
-import { CartItemType } from '../../types/CartItem';
+import { CartItemType } from 'types/CartItem';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -14,14 +16,27 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 type Props = CartItemType;
 
 const CartItem: React.FC<Props> = ({ id, title, amount, price, img }) => {
+  const dispatch = useDispatch();
+  const handleIncrement = () => dispatch(increment(id));
+  const handleDecrement = () => {
+    if (amount <= 1) return dispatch(removeItem(id));
+    return dispatch(decrement(id));
+  };
+  const handleRemove = () => dispatch(removeItem(id));
   return (
     <ListItem
       title={title}
       secondaryAction={
-        <Box flexDirection="column" >
-          <IconButton children={<KeyboardArrowUpIcon />} />
+        <Box flexDirection="column">
+          <IconButton
+            onClick={handleIncrement}
+            children={<KeyboardArrowUpIcon />}
+          />
           <Typography align="center">{amount}</Typography>
-          <IconButton children={<KeyboardArrowDownIcon />} />
+          <IconButton
+            onClick={handleDecrement}
+            children={<KeyboardArrowDownIcon />}
+          />
         </Box>
       }
       sx={{
@@ -50,7 +65,9 @@ const CartItem: React.FC<Props> = ({ id, title, amount, price, img }) => {
             <Typography variant="body2" color="secondary" sx={{ pl: 1 }}>
               $ {price}
             </Typography>
-            <Button color="secondary">remove</Button>
+            <Button color="secondary" onClick={handleRemove}>
+              remove
+            </Button>
           </Box>
         }
         secondaryTypographyProps={{ component: 'div' }}
