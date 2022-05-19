@@ -1,12 +1,12 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { selectAmount } from 'features/cart/cartSlice';
+import { useAppSelector } from 'hooks';
+import { selectAmount } from 'services/api/cartApi';
 import { AppBar, Container, Toolbar, Typography, Badge } from '@mui/material';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 
 const NavBar: React.FC = () => {
-  const amount = useSelector(selectAmount);
+  const amount = useAppSelector(selectAmount);
   return (
     <AppBar position="static">
       <Container>

@@ -1,18 +1,19 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { List, Typography, Container, Box, Button } from '@mui/material';
 import CartItem from 'components/cart-list/CartItem';
+import CartListSkeleton from 'components/cart-list/CartListSkeleton';
 import {
+  useGetCartItemsQuery,
   clearCart,
   selectTotalPrice,
-  useCartItems,
-} from 'features/cart/cartSlice';
-import CartListSkeleton from 'components/cart-list/CartListSkeleton';
+} from 'services/api/cartApi';
+import { useAppDispatch } from 'hooks';
 
 const CartList: React.FC = () => {
-  const [cartItems, isLoading] = useCartItems();
+  const { data: cartItems = [], isLoading } = useGetCartItemsQuery();
+  const dispatch = useAppDispatch();
   const totalPrice = useSelector(selectTotalPrice);
-  const dispatch = useDispatch();
 
   const handleClearCart = () => {
     dispatch(clearCart());

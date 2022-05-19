@@ -1,1 +1,1 @@
-Test project to practice redux-toolkit.
+Test project to practice rtk query.

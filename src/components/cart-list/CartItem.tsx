@@ -1,6 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { decrement, increment, removeItem } from 'features/cart/cartSlice';
+import { removeItem, updateAmount } from 'services/api/cartApi';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
@@ -12,15 +11,16 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useAppDispatch } from 'hooks';
 
 type Props = CartItemType;
 
 const CartItem: React.FC<Props> = ({ id, title, amount, price, img }) => {
-  const dispatch = useDispatch();
-  const handleIncrement = () => dispatch(increment(id));
+  const dispatch = useAppDispatch();
+  const handleIncrement = () => dispatch(updateAmount(id, 'increment'));
   const handleDecrement = () => {
     if (amount <= 1) return dispatch(removeItem(id));
-    return dispatch(decrement(id));
+    return dispatch(updateAmount(id, 'decrement'));
   };
   const handleRemove = () => dispatch(removeItem(id));
   return (

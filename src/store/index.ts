@@ -1,10 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import cartReducer from '../features/cart/cartSlice';
+import { cartApi } from 'services/api/cartApi';
 
 export const store = configureStore({
   reducer: {
-    cart: cartReducer,
+    [cartApi.reducerPath]: cartApi.reducer,
   },
+  middleware: gDM => gDM().concat(cartApi.middleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
